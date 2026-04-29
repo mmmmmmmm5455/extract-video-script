@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent1_output",
+  "title": "Agent 1: Video Search & Download — Output",
+  "type": "object",
+  "oneOf": [
+    { "required": ["video_path", "metadata"] },
+    { "required": ["error"] }
+  ],
+  "properties": {
+    "video_path": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "Absolute path to the downloaded video file in .cache/."
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["title", "url", "source", "duration_seconds", "resolution", "language", "downloaded_at", "file_size_bytes"],
+      "properties": {
+        "title": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "source": { "type": "string", "enum": ["bilibili", "youtube"] },
+        "duration_seconds": { "type": "number", "minimum": 1, "maximum": 7200 },
+        "resolution": { "type": "string", "pattern": "^\\d+p$" },
+        "language": { "type": "string", "enum": ["zh", "en", "unknown"] },
+        "downloaded_at": { "type": "string", "format": "date-time" },
+        "file_size_bytes": { "type": "number", "minimum": 1 }
+      }
+    },
+    "error": {
+      "type": "string",
+      "description": "Error code if search or download failed. e.g. no_viable_video, download_failed, geo_restricted."
+    },
+    "candidates": {
+      "type": "array",
+      "description": "Search results considered (for debugging failed searches).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "url": { "type": "string" },
+          "duration_seconds": { "type": "number" },
+          "view_count": { "type": "number" }
+        }
+      }
+    }
+  }
+}

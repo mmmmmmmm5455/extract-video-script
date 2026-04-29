@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "whisper": {
+    "default_model": "medium",
+    "fallback_chain": ["medium", "small", "base"],
+    "language_hint": "auto"
+  },
+  "download": {
+    "bilibili": {
+      "tool": "BBDown",
+      "quality": 16,
+      "max_duration_seconds": 7200
+    },
+    "youtube": {
+      "tool": "yt-dlp",
+      "format": "worst[ext=mp4]",
+      "max_filesize_mb": 500
+    }
+  },
+  "evolution": {
+    "enabled": true,
+    "max_retries": 2,
+    "excluded_video_ids": []
+  },
+  "paths": {
+    "output_dir": "C:\\Users\\qwqwh\\.claude\\video-scripts",
+    "cache_dir": "C:\\Users\\qwqwh\\.claude\\video-scripts\\.cache",
+    "env_file": "C:\\Users\\qwqwh\\.claude\\video-scripts\\.env.sh"
+  }
+}

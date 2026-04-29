@@ -1,0 +1,10 @@
+# Cache files
+.cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+Desktop.ini

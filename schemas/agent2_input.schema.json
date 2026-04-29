@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent2_input",
+  "title": "Agent 2: Speech Extraction & Cleanup — Input",
+  "type": "object",
+  "required": ["video_path", "metadata"],
+  "properties": {
+    "video_path": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "Absolute path to the video file downloaded by Agent 1."
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["title", "language"],
+      "properties": {
+        "title": { "type": "string" },
+        "language": { "type": "string", "enum": ["zh", "en", "auto"] }
+      }
+    }
+  }
+}

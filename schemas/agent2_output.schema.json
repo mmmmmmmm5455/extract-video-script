@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent2_output",
+  "title": "Agent 2: Speech Extraction & Cleanup — Output",
+  "type": "object",
+  "required": ["script_path", "extraction_report"],
+  "properties": {
+    "script_path": {
+      "type": "string",
+      "format": "uri-reference",
+      "description": "Absolute path to the final Markdown script file."
+    },
+    "extraction_report": {
+      "type": "object",
+      "required": ["title", "duration_seconds", "transcription_model", "language_detected", "script_word_count", "segments_count", "audio_extraction_ok", "transcription_ok", "cleanup_ok", "video_deleted", "audio_temp_deleted", "errors"],
+      "properties": {
+        "title": { "type": "string" },
+        "duration_seconds": { "type": "number", "minimum": 0 },
+        "transcription_model": { "type": "string", "enum": ["tiny", "base", "small", "medium", "large"] },
+        "language_detected": { "type": "string" },
+        "script_word_count": { "type": "integer", "minimum": 0 },
+        "segments_count": { "type": "integer", "minimum": 0 },
+        "audio_extraction_ok": { "type": "boolean" },
+        "transcription_ok": { "type": "boolean" },
+        "cleanup_ok": { "type": "boolean" },
+        "video_deleted": { "type": "boolean" },
+        "audio_temp_deleted": { "type": "boolean" },
+        "errors": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

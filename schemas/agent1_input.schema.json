@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agent1_input",
+  "title": "Agent 1: Video Search & Download — Input",
+  "type": "object",
+  "required": ["keyword", "source"],
+  "properties": {
+    "keyword": {
+      "type": "string",
+      "description": "Search keyword, supports Chinese and English. Wrap in quotes if contains spaces."
+    },
+    "source": {
+      "type": "string",
+      "enum": ["bilibili", "youtube", "auto"],
+      "description": "Video platform to search. auto = try Bilibili first, fall back to YouTube."
+    },
+    "max_results": {
+      "type": "integer",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Maximum number of search results to consider."
+    },
+    "language": {
+      "type": "string",
+      "enum": ["zh", "en", "auto"],
+      "default": "auto",
+      "description": "Expected language of the video, inferred from metadata if auto."
+    }
+  }
+}
