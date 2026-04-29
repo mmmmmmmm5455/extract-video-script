@@ -56,7 +56,7 @@ If whisper fails (OOM, model not found):
 2. If still fails, report error with full traceback
 
 ### Step 4: Convert to Markdown with YAML Front Matter
-Read the SRT file and convert to Markdown format:
+Read the SRT file and convert to Markdown format. Write the file using Write tool:
 ```markdown
 ---
 title: "Video Title"
@@ -91,7 +91,10 @@ test ! -f "<video_path>" && echo "video deleted"
 test ! -f "$CACHE/$V_ID.wav" && echo "wav deleted"
 ```
 
-## Output (write to file)
+## Output (Step 4: write .md with Write tool; final status: return as response text)
+Step 4 requires Write tool to save the .md script file. If Write is denied, still continue.
+
+For the final status, do NOT use the Write tool. Output ONLY this JSON object as your final response text — nothing else:
 ```json
 {
   "script_path": "C:\\Users\\qwqwh\\.claude\\video-scripts\\<sanitized_title>.md",

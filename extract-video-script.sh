@@ -139,10 +139,15 @@ AGENT1_OUTPUT="$CACHE_DIR/agent1_output.json"
 
 echo ">>> Agent 1: Searching & downloading '$KEYWORD' (source: $SOURCE)..."
 
-claude --print --model deepseek-v4-pro \
-    --output-format json \
+AGENT1_PROMPT=$(< "$PROMPTS_DIR/agent1_search_download.md")
+AGENT1_PROMPT=${AGENT1_PROMPT//{{KEYWORD}}/$KEYWORD}
+AGENT1_PROMPT=${AGENT1_PROMPT//{{SOURCE}}/$SOURCE}
+AGENT1_PROMPT=${AGENT1_PROMPT//{{MAX_RESULTS}}/$MAX_RESULTS}
+AGENT1_PROMPT=${AGENT1_PROMPT//{{LANGUAGE}}/$LANGUAGE}
+AGENT1_PROMPT=${AGENT1_PROMPT//{{CACHE_DIR}}/$CACHE_DIR}
+printf '%s\n' "$AGENT1_PROMPT" | claude --print --model deepseek-v4-pro \
+    --output-format text \
     --allowedTools "Bash,Read,Write,Glob,Grep" \
-    < "$PROMPTS_DIR/agent1_search_download.md" \
     > "$AGENT1_OUTPUT" 2>"$CACHE_DIR/agent1_stderr.log"
 
 if [[ ! -s "$AGENT1_OUTPUT" ]]; then
@@ -178,10 +183,13 @@ AGENT2_OUTPUT="$CACHE_DIR/agent2_output.json"
 
 echo ">>> Agent 2: Extracting audio & transcribing..."
 
-claude --print --model deepseek-v4-pro \
-    --output-format json \
+AGENT2_PROMPT=$(< "$PROMPTS_DIR/agent2_extract_transcribe.md")
+AGENT2_PROMPT=${AGENT2_PROMPT//{{WHISPER_MODEL}}/$WHISPER_MODEL}
+AGENT2_PROMPT=${AGENT2_PROMPT//{{LANGUAGE}}/$LANGUAGE}
+AGENT2_PROMPT=${AGENT2_PROMPT//{{CACHE_DIR}}/$CACHE_DIR}
+printf '%s\n' "$AGENT2_PROMPT" | claude --print --model deepseek-v4-pro \
+    --output-format text \
     --allowedTools "Bash,Read,Write,Glob,Grep" \
-    < "$PROMPTS_DIR/agent2_extract_transcribe.md" \
     > "$AGENT2_OUTPUT" 2>"$CACHE_DIR/agent2_stderr.log"
 
 if [[ ! -s "$AGENT2_OUTPUT" ]]; then
@@ -214,10 +222,13 @@ if [[ "$WORD_COUNT" -lt 100 ]] || jq -e '.extraction_report.errors[0]' "$AGENT2_
 
     echo ">>> Agent 3: Quality check & self-evolution..."
 
-    claude --print --model deepseek-v4-pro \
-        --output-format json \
+    AGENT3_PROMPT=$(< "$PROMPTS_DIR/agent3_quality_evolve.md")
+    AGENT3_PROMPT=${AGENT3_PROMPT//{{KEYWORD}}/$KEYWORD}
+    AGENT3_PROMPT=${AGENT3_PROMPT//{{SOURCE}}/$SOURCE}
+    AGENT3_PROMPT=${AGENT3_PROMPT//{{CACHE_DIR}}/$CACHE_DIR}
+    printf '%s\n' "$AGENT3_PROMPT" | claude --print --model deepseek-v4-pro \
+        --output-format text \
         --allowedTools "Bash,Read,Write,Glob,Grep,WebSearch" \
-        < "$PROMPTS_DIR/agent3_quality_evolve.md" \
         > "$AGENT3_OUTPUT" 2>>"$CACHE_DIR/agent3_stderr.log"
 
     GRADE=$(jq -r '.quality_report.overall_grade // "unknown"' "$AGENT3_OUTPUT")

@@ -61,8 +61,8 @@ BBDown --use-ffmpeg --video-only --quality 16 --work-dir "{{CACHE_DIR}}" <video_
 yt-dlp -f "worst[ext=mp4]" --max-filesize 500M -o "{{CACHE_DIR}}/%(id)s.%(ext)s" <video_url>
 ```
 
-## Output (write to file)
-Write a JSON file with this exact schema:
+## Output (return as final response)
+Do NOT use the Write tool. Output ONLY this JSON object as your final response text — nothing else, no markdown, no explanation:
 ```json
 {
   "video_path": "C:\\Users\\qwqwh\\.claude\\video-scripts\\.cache\\<video_id>.mp4",
@@ -80,7 +80,7 @@ Write a JSON file with this exact schema:
 ```
 
 ## Error Output
-If no viable video found:
+If no viable video found, output ONLY:
 ```json
 {
   "error": "no_viable_video",
