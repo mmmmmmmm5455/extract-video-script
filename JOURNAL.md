@@ -12,7 +12,8 @@
 | **工具名稱** | `extract-video-script` |
 | **一句話目的** | 輸入關鍵字，自動搜尋 Bilibili/YouTube 教學影片 → 下載 → 本機 Whisper 語音轉文字 → 輸出 Markdown 腳本，不留任何影片/音軌殘留 |
 | **建立日期** | 2026-04-29 |
-| **PRD 路徑** | `C:\Users\qwqwh\.claude\projects\multi-agent-plan\output\video-script-extractor\PRD.md` |
+| **PRD 路徑** | `C:\Users\qwqwh\.claude\projects\video-script-extractor\PRD.md` |
+| **GitHub Repo** | https://github.com/mmmmmmmm5455/extract-video-script |
 | **工具目錄** | `C:\Users\qwqwh\.claude\video-scripts\` |
 | **源碼目錄** | `C:\Users\qwqwh\.claude\projects\video-script-extractor\` |
 
@@ -219,6 +220,7 @@
 | — | Phase 3：Agent 3 品質與進化（待執行） |
 | — | Phase 4：Agent 3 開發（待執行） |
 | — | Phase 5：整合測試（待執行） |
+| 2026-04-29 | **GitHub 推送**：初始化 repo，18 個檔案，commit `29f5705`，推送至 github.com/mmmmmmmm5455/extract-video-script |
 
 ---
 
@@ -241,6 +243,42 @@
 
 ### 待 Phase 2 處理
 - `tests/` 目錄中的 3 個測試腳本（test_bilibili_search.sh, test_youtube_search.sh, test_extraction_pipeline.sh）
+
+---
+
+## 12. GitHub 推送記錄（2026-04-29）
+
+| 項目 | 內容 |
+|------|------|
+| **Repo URL** | https://github.com/mmmmmmmm5455/extract-video-script |
+| **SSH Remote** | git@github.com:mmmmmmmm5455/extract-video-script.git |
+| **Commit** | `29f5705` — feat: extract-video-script — 本機影片腳本提取工具 v1.0.0 |
+| **檔案數** | 18 files, 2123 insertions |
+| **授權** | MIT License（原創部分） |
+| **致謝** | ATTRIBUTIONS.md（11 個開源專案） |
+
+### 推送內容清單
+
+| 檔案 | 說明 |
+|------|------|
+| `README.md` | 工具概述、安裝、使用方式、技術棧 |
+| `ATTRIBUTIONS.md` | 開源致謝（BBDown, yt-dlp, whisper, FFmpeg, page-agent, markitdown, prompt-optimizer, Node.js, jq, Claude Code, OpenClaw） |
+| `PRD.md` | 完整產品需求文件（12 章節） |
+| `extract-video-script.sh` | CLI 入口腳本（~220行，3-Agent 編排） |
+| `.env.sh` | 環境變數設定（工具 PATH） |
+| `config.json` | 工具配置（whisper, download, evolution, paths） |
+| `JOURNAL.md` | 專案日誌（含環境診斷、測試記錄、決策記錄） |
+| `devlog.md` | 人類可讀開發日誌 |
+| `devlog.jsonl` | 機器可解析開發日誌（JSON Lines） |
+| `prompts/agent1_search_download.md` | Agent 1 系統提示 |
+| `prompts/agent2_extract_transcribe.md` | Agent 2 系統提示 |
+| `prompts/agent3_quality_evolve.md` | Agent 3 系統提示 |
+| `schemas/agent1_input.schema.json` | Agent 1 輸入 Schema |
+| `schemas/agent1_output.schema.json` | Agent 1 輸出 Schema |
+| `schemas/agent2_input.schema.json` | Agent 2 輸入 Schema |
+| `schemas/agent2_output.schema.json` | Agent 2 輸出 Schema |
+| `.gitignore` | 忽略 cache、IDE、OS 檔案 |
+| `examples/How-to-Install---Use-Whisper-AI-Voice-to-Text.md` | 範例輸出（2,447 詞，109 段落） |
 
 ---
 
