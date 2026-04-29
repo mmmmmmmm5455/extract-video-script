@@ -1,6 +1,29 @@
 # Cache files
 .cache/
 
+# Environment (DO NOT commit .env.sh)
+.env.sh
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# Databases
+*.db
+*.sqlite
+
+# Archives
+*.zip
+*.tar.gz
+*.7z
+
+# Node.js
+node_modules/
+
 # IDE
 .vscode/
 .idea/
@@ -8,3 +31,4 @@
 # OS
 Thumbs.db
 Desktop.ini
+.DS_Store
