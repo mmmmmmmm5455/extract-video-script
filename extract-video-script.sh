@@ -120,10 +120,65 @@ log_md() {
     echo "" >> "$LOG_MD"
 }
 
-# --- Dry-run mode ---
+# --- Dry-run mode: search only, validate toolchain ---
 if $DRY_RUN; then
-    echo "[DRY-RUN] Would search '$KEYWORD' on $SOURCE (max $MAX_RESULTS results)"
-    echo "[DRY-RUN] No download or transcription performed."
+    echo "=== DRY-RUN: Searching '$KEYWORD' on $SOURCE (max $MAX_RESULTS results) ==="
+    echo ""
+
+    # Validate yt-dlp is available
+    if ! command -v yt-dlp &>/dev/null; then
+        echo "FAIL: yt-dlp not found on PATH"
+        exit 1
+    fi
+    echo "[TOOL] yt-dlp: $(yt-dlp --version 2>&1)"
+
+    # Validate ffmpeg is available
+    if command -v ffmpeg &>/dev/null; then
+        echo "[TOOL] ffmpeg: $(ffmpeg -version 2>&1 | head -1)"
+    else
+        echo "[TOOL] ffmpeg: NOT FOUND (required for audio extraction)"
+    fi
+
+    # Validate whisper if installed
+    if command -v whisper &>/dev/null; then
+        echo "[TOOL] whisper: available"
+    else
+        echo "[TOOL] whisper: NOT FOUND (transcription will fail — install openai-whisper)"
+    fi
+
+    echo ""
+
+    # Actually search with yt-dlp (non-interactive, metadata only)
+    SEARCH_SOURCE="$SOURCE"
+    if [[ "$SOURCE" == "auto" ]]; then
+        SEARCH_SOURCE="youtube"
+    fi
+
+    if [[ "$SEARCH_SOURCE" == "youtube" ]]; then
+        echo "--- Search Results (yt-dlp) ---"
+        yt-dlp "ytsearch${MAX_RESULTS}:${KEYWORD}" \
+            --dump-json 2>/dev/null | \
+            python3 -c "
+import sys, json
+for i, line in enumerate(sys.stdin, 1):
+    line = line.strip()
+    if not line: continue
+    try:
+        d = json.loads(line)
+        dur = d.get('duration', 0) or 0
+        mins = int(dur // 60)
+        secs = int(dur % 60)
+        print(f'{i}. {d[\"title\"]} ({mins}:{secs:02d}) — {d.get(\"view_count\",\"?\")} views')
+    except: pass
+" 2>/dev/null || echo "(search returned no results or yt-dlp failed)"
+        echo ""
+    elif [[ "$SEARCH_SOURCE" == "bilibili" ]]; then
+        echo "[DRY-RUN] Bilibili search not implemented in dry-run mode (requires BBDown)"
+    fi
+
+    echo "---"
+    echo "DRY-RUN complete. No download or transcription performed."
+    echo "Run without --dry-run to execute full pipeline."
     exit 0
 fi
 
